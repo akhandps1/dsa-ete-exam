@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Problems Study Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+        .problem-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container mx-auto p-6">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-indigo-600">Array Problems Study Guide</h1>
+            <p class="text-lg text-gray-600 mt-2">A comprehensive guide to solving array-based programming problems with C++ code and explanations</p>
+        </header>
+
+        <main>
+            <!-- Question 1: Second Maximum in an Array -->
+            <section class="problem-section">
+                <h2 class="text-2xl font-semibold text-indigo-500 mb-4">1. Second Maximum in an Array</h2>
+                <h3 class="text-xl font-medium mb-2">Problem Summary</h3>
+                <p>Given an array, find the second maximum element. If all elements are the same, print 0.</p>
+                <p><strong>Input:</strong> First line: N (array size). Second line: N space-separated integers.</p>
+                <p><strong>Sample Input 1:</strong></p>
+                <pre><code>5
+30 210 100 40 70</code></pre>
+                <p><strong>Sample Output 1:</strong> 100</p>
+                <p><strong>Sample Input 2:</strong></p>
+                <pre><code>5
+40 -20 50 40 10</code></pre>
+                <p><strong>Sample Output 2:</strong> 40</p>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">C++ Solution</h3>
+                <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int secondMax(int arr[], int n) {
+    int max = INT_MIN, secondMax = INT_MIN;
+    for (int i = 0; i &lt; n; i++) {
+        if (arr[i] &gt; max) {
+            secondMax = max;
+            max = arr[i];
+        } else if (arr[i] &gt; secondMax && arr[i] &lt; max) {
+            secondMax = arr[i];
+        }
+    }
+    if (secondMax == INT_MIN || secondMax == max) return 0;
+    return secondMax;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i &lt; n; i++) cin >> arr[i];
+    cout << secondMax(arr, n) << endl;
+    return 0;
+}</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">Key Concepts</h3>
+                <ul class="list-disc pl-6">
+                    <li>Logic: Traverse the array once, tracking max and second max.</li>
+                    <li>Handle edge case: Return 0 if all elements are the same.</li>
+                    <li>Use INT_MIN for initialization to handle negative numbers.</li>
+                    <li>Time Complexity: O(n), Space Complexity: O(1).</li>
+                </ul>
+            </section>
+
+            <!-- Question 2: Maximum Frequency in a Sequence -->
+            <section class="problem-section">
+                <h2 class="text-2xl font-semibold text-indigo-500 mb-4">2. Maximum Frequency in a Sequence</h2>
+                <h3 class="text-xl font-medium mb-2">Problem Summary</h3>
+                <p>Find the number with the highest frequency in a sequence. If multiple numbers have the same frequency, print the smallest one.</p>
+                <p><strong>Input:</strong> First line: T (test cases). For each test case: N (sequence size), then N integers.</p>
+                <p><strong>Sample Input:</strong></p>
+                <pre><code>3
+7
+2 4 5 2 3 2 4
+6
+1 2 1 1 2 1
+10
+1 1 1 1 1 1 1 1 1 1</code></pre>
+                <p><strong>Sample Output:</strong></p>
+                <pre><code>2
+1
+1</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">C++ Solution</h3>
+                <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int maxFrequency(int arr[], int n) {
+    int freq[1001] = {0};
+    for (int i = 0; i &lt; n; i++) {
+        freq[arr[i]]++;
+    }
+    int maxFreq = 0, result = INT_MAX;
+    for (int i = 0; i <= 1000; i++) {
+        if (freq[i] > maxFreq) {
+            maxFreq = freq[i];
+            result = i;
+        } else if (freq[i] == maxFreq && i < result) {
+            result = i;
+        }
+    }
+    return result;
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        int arr[n];
+        for (int i = 0; i &lt; n; i++) cin >> arr[i];
+        cout << maxFrequency(arr, n) << endl;
+    }
+    return 0;
+}</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">Key Concepts</h3>
+                <ul class="list-disc pl-6">
+                    <li>Logic: Use a frequency array to count occurrences and find the smallest number with max frequency.</li>
+                    <li>Handle tie cases by tracking the smallest number.</li>
+                    <li>Time Complexity: O(n) per test case, Space Complexity: O(1001).</li>
+                    <li>Use array for frequency since A[i] <= 1000.</li>
+                </ul>
+            </section>
+
+            <!-- Question 3: Count Negative, Positive, Even, and Odd -->
+            <section class="problem-section">
+                <h2 class="text-2xl font-semibold text-indigo-500 mb-4">3. Count Negative, Positive, Even, and Odd</h2>
+                <h3 class="text-xl font-medium mb-2">Problem Summary</h3>
+                <p>Given an array of size 10, count positive, negative, even, and odd elements.</p>
+                <p><strong>Input:</strong> 10 integers, each on a new line.</p>
+                <p><strong>Sample Input:</strong></p>
+                <pre><code>-3
+10
+20
+-4
+7
+1
+-2
+3
+4
+5</code></pre>
+                <p><strong>Sample Output:</strong></p>
+                <pre><code>7
+3
+5
+5</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">C++ Solution</h3>
+                <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+void countElements(int arr[], int n) {
+    int positive = 0, negative = 0, even = 0, odd = 0;
+    for (int i = 0; i &lt; n; i++) {
+        if (arr[i] >= 0) positive++;
+        else negative++;
+        if (arr[i] % 2 == 0) even++;
+        else odd++;
+    }
+    cout << positive << endl;
+    cout << negative << endl;
+    cout << even << endl;
+    cout << odd << endl;
+}
+
+int main() {
+    int arr[10];
+    for (int i = 0; i < 10; i++) cin >> arr[i];
+    countElements(arr, 10);
+    return 0;
+}</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">Key Concepts</h3>
+                <ul class="list-disc pl-6">
+                    <li>Logic: Count positive, negative, even, and odd in one loop.</li>
+                    <li>Consider 0 as positive.</li>
+                    <li>Time Complexity: O(n), Space Complexity: O(1).</li>
+                    <li>Output in four separate lines.</li>
+                </ul>
+            </section>
+
+            <!-- Question 4: Check if Two Arrays are Equal or Not -->
+            <section class="problem-section">
+                <h2 class="text-2xl font-semibold text-indigo-500 mb-4">4. Check if Two Arrays are Equal or Not</h2>
+                <h3 class="text-xl font-medium mb-2">Problem Summary</h3>
+                <p>Check if two arrays are equal (same elements with same frequency, order doesn’t matter).</p>
+                <p><strong>Input:</strong> First line: N (array size). Second line: N integers (array A). Third line: N integers (array B).</p>
+                <p><strong>Sample Input:</strong></p>
+                <pre><code>3
+11 12 13
+12 11 13</code></pre>
+                <p><strong>Sample Output:</strong> 1</p>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">C++ Solution</h3>
+                <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int arraysEqualorNot(int A[], int B[], int n) {
+    sort(A, A + n);
+    sort(B, B + n);
+    for (int i = 0; i < n; i++) {
+        if (A[i] != B[i]) return 0;
+    }
+    return 1;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int A[n], B[n];
+    for (int i = 0; i < n; i++) cin >> A[i];
+    for (int i = 0; i < n; i++) cin >> B[i];
+    cout << arraysEqualorNot(A, B, n) << endl;
+    return 0;
+}</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">Key Concepts</h3>
+                <ul class="list-disc pl-6">
+                    <li>Logic: Sort both arrays and compare.</li>
+                    <li>Sorting ensures order doesn’t matter.</li>
+                    <li>Time Complexity: O(n log n), Space Complexity: O(1).</li>
+                    <li>Alternative: Use hash map for frequency comparison.</li>
+                </ul>
+            </section>
+
+            <!-- Question 5: Move the Elements -->
+            <section class="problem-section">
+                <h2 class="text-2xl font-semibold text-indigo-500 mb-4">5. Move the Elements</h2>
+                <h3 class="text-xl font-medium mb-2">Problem Summary</h3>
+                <p>Shift all negative elements to the right side of the array while maintaining the relative order of positive and negative elements. Do not use a second array.</p>
+                <p><strong>Input:</strong> First line: N (array size). Second line: N integers.</p>
+                <p><strong>Sample Input:</strong></p>
+                <pre><code>10
+-6 7 13 10 -8 15 5 -9 2 -1</code></pre>
+                <p><strong>Sample Output:</strong></p>
+                <pre><code>7
+13
+10
+15
+5
+2
+-8
+-9
+-6
+-1</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">C++ Solution</h3>
+                <pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+void moveElements(int arr[], int n) {
+    int pos = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] >= 0) {
+            swap(arr[i], arr[pos]);
+            pos++;
+        }
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    moveElements(arr, n);
+    for (int i = 0; i < n; i++) cout << arr[i] << endl;
+    return 0;
+}</code></pre>
+
+                <h3 class="text-xl font-medium mb-2 mt-4">Key Concepts</h3>
+                <ul class="list-disc pl-6">
+                    <li>Logic: Use two-pointer approach to shift positive elements left.</li>
+                    <li>Maintain relative order of elements.</li>
+                    <li>No extra array allowed.</li>
+                    <li>Time Complexity: O(n), Space Complexity: O(1).</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="text-center mt-10">
+            <p class="text-gray-600">Created with ❤️ by Grok | Powered by xAI</p>
+        </footer>
+    </div>
+</body>
+</html>
